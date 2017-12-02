@@ -2,12 +2,8 @@ package tipkuu.padi.com.tipkuu;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.hardware.Camera;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +17,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.sourceforge.zbar.Image;
 import net.sourceforge.zbar.ImageScanner;
@@ -31,11 +26,8 @@ import net.sourceforge.zbar.SymbolSet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import tipkuu.padi.com.tipkuu.client.BackendClient;
+import tipkuu.padi.com.tipkuu.client.Client;
 import tipkuu.padi.com.tipkuu.models.ScanStateCallback;
 import tipkuu.padi.com.tipkuu.models.Tipee;
 import tipkuu.padi.com.tipkuu.models.TipeeCallback;
@@ -290,7 +282,7 @@ public class ScanCode2Activity extends Activity implements SurfaceHolder.Callbac
         AsyncTask<Void, Void, Boolean> itemLookupTask = new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
-                Tipee tipee = new BackendClient(ScanCode2Activity.this).getTipeeSync(currentBarcode);
+                Tipee tipee = new Client(ScanCode2Activity.this).getTipeeSync(currentBarcode);
                 if (tipee!=null) {
                     Log.d(TAG," >>>>>>>>>>>>>>>> loading " + tipee.getName());
                     scanState.updateState(ScanState.COMPLETE, tipee);
@@ -332,7 +324,7 @@ public class ScanCode2Activity extends Activity implements SurfaceHolder.Callbac
     private void decodeBarcode(final String barcodeString) {
         onPause();
         showResults();
-        BackendClient client = new BackendClient(this);
+        Client client = new Client(this);
         client.getTipee(barcodeString, new TipeeCallback() {
 
             @Override

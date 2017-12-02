@@ -56,6 +56,17 @@ public class Tipper {
     @SerializedName("photo_url")
     String photoUrl;
 
+    public int getTipsCount() {
+        return tipsCount;
+    }
+
+    public void setTipsCount(int tipsCount) {
+        this.tipsCount = tipsCount;
+    }
+
+    @SerializedName("tips_count")
+    int tipsCount;
+
     public String toString() {
         Gson gson = new Gson();
         return gson.toJson(this);

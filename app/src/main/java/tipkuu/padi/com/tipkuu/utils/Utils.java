@@ -23,6 +23,8 @@ public class Utils {
 
     public static Tipper getLoginInfo(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
-        return Tipper.fromString(sharedPreferences.getString("user", "{}"));
+        String userDataJson = sharedPreferences.getString("user", null);
+        if (userDataJson == null) return null;
+        return Tipper.fromString(userDataJson);
     }
 }

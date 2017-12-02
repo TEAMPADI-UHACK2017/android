@@ -9,4 +9,7 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="profileNameColor">#FFFFFF</color>
+    <color name="secondaryColor">#ed6b25</color>
+    <color name="secondaryColorLight">#ef5b10</color>
+    <color name="tertiaryColor">#FFBD33</color>
 </resources>

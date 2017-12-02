@@ -4,6 +4,16 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 public class Tipee {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    int id;
+
     @SerializedName("qr_code")
     String qrCode;
     String name;
@@ -18,7 +28,7 @@ public class Tipee {
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
     }
-
+    @SerializedName("photo_url")
     String profileUrl;
 
     public String getName() {

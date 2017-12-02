@@ -33,8 +33,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import tipkuu.padi.com.tipkuu.client.BackendClient;
-import tipkuu.padi.com.tipkuu.models.LoginInfo;
+import tipkuu.padi.com.tipkuu.client.Client;
 import tipkuu.padi.com.tipkuu.models.Tipper;
 import tipkuu.padi.com.tipkuu.utils.Utils;
 
@@ -318,7 +317,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Tipper doInBackground(Void... params) {
-            Tipper tipper = new BackendClient(LoginActivity.this).getTipperSync(mEmail);
+            Tipper tipper = new Client(LoginActivity.this).getTipperSync(mEmail);
             return tipper;
         }
 
