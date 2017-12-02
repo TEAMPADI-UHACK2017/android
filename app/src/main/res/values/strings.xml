@@ -14,4 +14,15 @@
         completions."
     </string>
     <string name="title_activity_main">TipKuu</string>
+    <string name="scan_qr_code">Place QR Code</string>
+    <string name="place_barcode_inside_box">Place QR code inside the box</string>
+    <string name="msg_default_status">Place a QR Code inside the viewfinder rectangle to scan it.</string>
+    <string name="claim_item">Claim Item</string>
+    <string name="activity_scan_code_title">Scan QR code</string>
+    <string name="code_not_found">Cannot find code in records</string>
+
+    <string name="title_activity_tipee_profile">TipeeProfileActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="tip">TIP</string>
 </resources>

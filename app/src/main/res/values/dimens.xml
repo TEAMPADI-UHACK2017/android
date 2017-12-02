@@ -3,4 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="finder_frame_margin">24dp</dimen>
+    <dimen name="finder_frame_thickness">2dp</dimen>
+    <dimen name="finder_vertical_guide_length">60dp</dimen>
+    <dimen name="bar_font_size">12sp</dimen>
+    <dimen name="target_line_width">4dp</dimen>
+    <dimen name="finder_capture_rect_height">150dp</dimen>
+    <dimen name="standard_margin">8dp</dimen>
 </resources>

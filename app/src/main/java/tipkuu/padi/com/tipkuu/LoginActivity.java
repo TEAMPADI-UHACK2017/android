@@ -33,7 +33,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tipkuu.padi.com.tipkuu.client.BackendClient;
 import tipkuu.padi.com.tipkuu.models.LoginInfo;
+import tipkuu.padi.com.tipkuu.models.Tipper;
 import tipkuu.padi.com.tipkuu.utils.Utils;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -304,7 +306,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, LoginInfo> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Tipper> {
 
         private final String mEmail;
         private final String mPassword;
@@ -315,13 +317,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected LoginInfo doInBackground(Void... params) {
-            LoginInfo loginInfo = new LoginInfo();
-            return loginInfo;
+        protected Tipper doInBackground(Void... params) {
+            Tipper tipper = new BackendClient(LoginActivity.this).getTipperSync(mEmail);
+            return tipper;
         }
 
         @Override
-        protected void onPostExecute(final LoginInfo loginInfo) {
+        protected void onPostExecute(final Tipper loginInfo) {
             mAuthTask = null;
             showProgress(false);
 
