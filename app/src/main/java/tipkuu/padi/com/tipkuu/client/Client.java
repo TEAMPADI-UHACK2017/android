@@ -90,10 +90,11 @@ public class Client {
         asyncTask.execute();
     };
 
-    public String transfer(String code, String amount, int userId, int tpid) {
+    public String transfer(String code, String amount, int userId, int tpid, int rating) {
         final String url = API_ENDPOINT + "/tippers/" + userId + "/transfer";
         FormBody formBody = new FormBody.Builder()
                 .add("tipee_id", Integer.toString(tpid))
+                .add("rating", Integer.toString(rating))
                 .add("amount", amount)
                 .add("code", code)
                 .build();
@@ -120,12 +121,14 @@ public class Client {
         return null;
     };
 
-    public void transferAsync(final String code, final String amount, final int userId, final int tpid, final OnTransferCallback callback) {
+    public void transferAsync(final String code, final String amount, final int userId, final int tpid,
+                              final int rating,
+                              final OnTransferCallback callback) {
         AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
 
             @Override
             protected String doInBackground(Void... voids) {
-                return transfer(code, amount, userId, tpid);
+                return transfer(code, amount, userId, tpid, rating);
             }
 
             @Override

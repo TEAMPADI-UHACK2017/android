@@ -105,11 +105,12 @@ public class TipeeProfileActivity extends AppCompatActivity implements View.OnCl
         if (requestCode == UNIONBANK_LOGIN) {
             if (resultCode == RESULT_OK) {
                 String code = data.getStringExtra("code");
+                int rating = Math.round(ratingsBar.getRating());
                 final ProgressDialog pd = new ProgressDialog(this);
                 pd.setMessage("Processing.. Please wait");
                 pd.show();
 
-                client.transferAsync(code, tipAmount.getText().toString(), tipper.getId(), tipee.getId(), new OnTransferCallback() {
+                client.transferAsync(code, tipAmount.getText().toString(), tipper.getId(), tipee.getId(), rating, new OnTransferCallback() {
                     @Override
                     public void onSuccess(String s) {
                         pd.cancel();
