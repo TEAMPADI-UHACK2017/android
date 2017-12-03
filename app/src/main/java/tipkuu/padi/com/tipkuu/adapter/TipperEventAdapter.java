@@ -28,13 +28,14 @@ public class TipperEventAdapter extends RecyclerView.Adapter<EventViewHolder> {
         // create a new view
         View layout = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.event_item, parent, false);
-        EventViewHolder vh = new EventViewHolder(layout);
+        EventViewHolder vh = new EventViewHolder(layout, parent.getContext());
         return vh;
     }
 
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
-
+        Event event = events.get(position);
+        holder.setEvent(event);
     }
 
     @Override

@@ -53,6 +53,17 @@ public class Tipper {
     int id;
     String name;
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @SerializedName("url")
+    String url;
+
     @SerializedName("photo_url")
     String photoUrl;
 

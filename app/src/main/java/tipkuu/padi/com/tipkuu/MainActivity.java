@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,8 +25,6 @@ import com.squareup.picasso.Picasso;
 
 import tipkuu.padi.com.tipkuu.adapter.TipperEventAdapter;
 import tipkuu.padi.com.tipkuu.client.Client;
-import tipkuu.padi.com.tipkuu.models.Tipee;
-import tipkuu.padi.com.tipkuu.models.TipeeCallback;
 import tipkuu.padi.com.tipkuu.models.Tipper;
 import tipkuu.padi.com.tipkuu.utils.Utils;
 
@@ -46,10 +43,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView tabFriends;
     private ImageView tabPlaces;
     private ImageView tabAccount;
-    private EventFragment eventFragment;
-    private BadgeFragment badgeFragment;
-    private AccountFragment accountFragment;
-    private FriendsFragment friendsFragment;
+    private Fragment placesFragment;
+    private Fragment badgeFragment;
+    private Fragment accountFragment;
+    private Fragment friendsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,11 +129,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        });
 
         // Create new fragment and transaction
-        this.eventFragment = new EventFragment();
+        this.placesFragment = PlacesFragment.newInstance(Utils.getLoginInfo(this).getAccountNum());
         this.badgeFragment = new BadgeFragment();
         this.accountFragment = AccountFragment.newInstance(Utils.getLoginInfo(this).getAccountNum());
-        this.friendsFragment = FriendsFragment.newInstance(Utils.getLoginInfo(this).getAccountNum());
-
+        this.friendsFragment = EventFragment.newInstance(user.getId(), this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, badgeFragment);
         transaction.addToBackStack(null);
@@ -212,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case 2:
                 tabPlaces.setImageResource(R.drawable.ic_map_marker_black_36dp);
-                fragment = eventFragment;
+                fragment = placesFragment;
                 break;
             case 3:
                 tabAccount.setImageResource(R.drawable.ic_account_card_details_black_36dp);

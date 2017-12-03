@@ -1,6 +1,7 @@
 package tipkuu.padi.com.tipkuu;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import tipkuu.padi.com.tipkuu.adapter.TipperEventAdapter;
+import tipkuu.padi.com.tipkuu.client.Client;
+import tipkuu.padi.com.tipkuu.client.OnTransactionsCompleteCallback;
 import tipkuu.padi.com.tipkuu.models.Event;
 
 
@@ -22,21 +25,27 @@ import tipkuu.padi.com.tipkuu.models.Event;
  */
 public class EventFragment extends Fragment {
     private static final String ARG_USERID = "user_id";
-    private String userId;
+    private int userId;
     private RecyclerView myRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private TipperEventAdapter myAdapter;
 
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    private Client client;
 
     public EventFragment() {
         // Required empty public constructor
     }
 
 
-    public static EventFragment newInstance(String userId) {
+    public static EventFragment newInstance(int userId, Context context) {
         EventFragment fragment = new EventFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_USERID, userId);
+        args.putInt(ARG_USERID, userId);
+        fragment.setClient(new Client(context));
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,7 +54,7 @@ public class EventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.userId = getArguments().getString(ARG_USERID);
+            this.userId = getArguments().getInt(ARG_USERID);
         }
     }
 
@@ -57,11 +66,14 @@ public class EventFragment extends Fragment {
         myRecyclerView = (RecyclerView) layout.findViewById(R.id.tipperEvents);
         mLayoutManager = new LinearLayoutManager(getContext());
         myRecyclerView.setLayoutManager(mLayoutManager);
+        client.transactionsAsync(userId, new OnTransactionsCompleteCallback() {
+            @Override
+            public void onDone(ArrayList<Event> events) {
+                myAdapter = new TipperEventAdapter(events);
+                myRecyclerView.setAdapter(myAdapter);
+            }
+        });
 
-        ArrayList<Event> eventsArrayList = new ArrayList<Event>();
-        eventsArrayList.add(new Event());
-        myAdapter = new TipperEventAdapter(eventsArrayList);
-        myRecyclerView.setAdapter(myAdapter);
         return layout;
     }
 

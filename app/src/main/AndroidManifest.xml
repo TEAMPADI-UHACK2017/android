@@ -47,7 +47,8 @@
             android:name=".UnionBankLoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_union_bank_login"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".EstablishmentActivity"></activity>
     </application>
 
 </manifest>

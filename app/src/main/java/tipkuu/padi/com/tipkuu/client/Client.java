@@ -4,14 +4,17 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.Executor;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
+import tipkuu.padi.com.tipkuu.models.Event;
 import tipkuu.padi.com.tipkuu.models.Tipee;
 import tipkuu.padi.com.tipkuu.models.TipeeCallback;
 import tipkuu.padi.com.tipkuu.models.Tipper;
@@ -44,7 +47,8 @@ public class Client {
         return null;
     }
 
-    public String transactions(int userId) {
+    public ArrayList<Event> transactions(int userId) {
+        ArrayList<Event> eventArrayList = new ArrayList<Event>();
         final String url = API_ENDPOINT + "/transactions";
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url(url)
@@ -53,15 +57,38 @@ public class Client {
 
         try {
             okhttp3.Response response = client.newCall(request).execute();
-            JSONObject jsonBody = new JSONObject(response.body().string());
-            return jsonBody.getString("timestamp");
+            JSONArray jsonBody = new JSONArray(response.body().string());
+            for(int i =0; i < jsonBody.length(); i++) {
+                JSONObject eventObj = jsonBody.getJSONObject(i);
+                Event event = Event.fromString(eventObj.toString());
+                Tipper tipper = getTipperSync(event.getTipper_id());
+                event.setTipper(tipper);
+                eventArrayList.add(event);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return eventArrayList;
     }
+
+    public void transactionsAsync(final int userId, final OnTransactionsCompleteCallback completeCallback) {
+        AsyncTask<Void, Void, ArrayList<Event>> asyncTask = new AsyncTask<Void, Void, ArrayList<Event>>() {
+
+            @Override
+            protected ArrayList<Event> doInBackground(Void... voids) {
+                return transactions(userId);
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<Event> events) {
+                super.onPostExecute(events);
+                completeCallback.onDone(events);
+            }
+        };
+        asyncTask.execute();
+    };
 
     public String transfer(String code, String amount, int userId, int tpid) {
         final String url = API_ENDPOINT + "/tippers/" + userId + "/transfer";
@@ -160,6 +187,30 @@ public class Client {
 
     public Tipper getTipperSync(String email) {
         final String url = API_ENDPOINT + "/tippers/find?email=" + email;
+
+        Log.d(TAG, " >>>>>>>>>>>>>>>>>>>> " + url);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        try {
+            okhttp3.Response response = client.newCall(request).execute();
+            String bodyStr = response.body().string();
+            Log.d(TAG, "response = " + bodyStr);
+            if (response.isSuccessful()) {
+                return Tipper.fromString(bodyStr);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            Log.e(TAG, " >>>>>>>>>>>>>>>>>>>> " +e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    };
+
+    public Tipper getTipperSync(int id) {
+        final String url = API_ENDPOINT + "/tippers/" + id + ".json";
 
         Log.d(TAG, " >>>>>>>>>>>>>>>>>>>> " + url);
         okhttp3.Request request = new okhttp3.Request.Builder()

@@ -34,4 +34,11 @@
     <string name="thank_you">Thank You!!</string>
     <string name="close_panel">Close</string>
     <string name="total_given">Total Given</string>
+    <string name="collect_badges">Collect all these badges!</string>
+    <string name="badge_1_description">Tip 1000 Pesos to collect this badge</string>
+    <string name="badge_2_description">Tip 10000 Pesos to collect this badge!</string>
+    <string name="omakase_alabang">Omakase Alabang branch</string>
+    <string name="max_alabang">Max Alabang Branch</string>
+    <string name="badge_3_description">Tip 100 on a Pizza Restaurant</string>
+    <string name="tipped">tipped</string>
 </resources>

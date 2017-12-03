@@ -5,6 +5,16 @@ import com.google.gson.Gson;
 public class Event {
     int id;
 
+    public Tipper getTipper() {
+        return tipper;
+    }
+
+    public void setTipper(Tipper tipper) {
+        this.tipper = tipper;
+    }
+
+    Tipper tipper;
+
     public int getId() {
         return id;
     }
